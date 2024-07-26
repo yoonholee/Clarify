@@ -1,0 +1,308 @@
+:root {
+    --main-bg-color: #e9e9e9;
+    --button-active-bg-color: #4CAF50;
+    --button-bg-color: #d6d6d6;
+    --button-hover-bg-color: #929292;
+}
+
+nav {
+    background-color: #272822;
+    height: 50px;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 10px 30px;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+.content {
+    display: flex;
+    margin: 40px 10px;
+    gap: 40px;
+}
+
+/********************************************/
+
+.navbar {
+    background-color: #f8f9fa;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    /* Center items vertically */
+    align-items: center;
+    /* Center items horizontally */
+}
+
+.nav-item {
+    flex: 1;
+    color: rgb(44, 44, 44);
+    font-size: 16px;
+    text-align: center;
+    /* Center text horizontally */
+    height: 100%;
+    /* Make the nav-item span the full height of the navbar */
+    display: flex;
+    /* Add this line */
+    justify-content: center;
+    /* Add this line */
+    align-items: center;
+    /* Add this line */
+    background-color: #cacaca;
+    /* Add this line */
+}
+
+.nav-item.active {
+    /* background-color: #c1c34895;  */
+    background-color: #65656595;
+    border: 2px solid #2b2b2b95;
+}
+
+#task-column {
+    padding: 10px;
+    min-width: 15vw;
+    flex-grow: 1;
+    background-color: var(--main-bg-color);
+    height: 100%;
+    border-radius: 5px;
+}
+
+#task-description {
+    font-size: medium;
+}
+
+.hidden-text {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    /* Adjust as necessary */
+    /* margin-bottom: 1em; Add some space below the element */
+    overflow: hidden;
+    /* Ensure blur doesn't spill over */
+}
+
+.hidden-text .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+    /* Ignore hover and click events */
+}
+
+.hidden-text .content {
+    position: absolute;
+    font-size: medium;
+    width: 100%;
+    height: 100%;
+    padding: 1em;
+    overflow: auto;
+    /* Make sure long text can be scrolled */
+    filter: blur(6px);
+    /* Apply blur effect */
+    z-index: 1;
+    white-space: pre-wrap;
+    /* Preserve newlines and other whitespace */
+}
+
+.hidden-text:hover .content {
+    filter: none;
+    /* Remove blur effect on hover */
+    transition: 1.0s;
+}
+
+.hidden-text:hover .overlay {
+    display: none;
+    /* Hide overlay on hover */
+}
+
+/********************************************/
+#main-grid {
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    /* Changed from center to flex-start */
+}
+
+.cell {
+    flex-basis: calc(48%);
+    /* Set the width of each grid item */
+    padding: 0px 5px 10px 20px;
+}
+
+.cell p {
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+.image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2vw;
+}
+
+.image-grid img {
+    width: calc(12%);
+    height: calc(12%);
+    object-fit: cover;
+}
+
+.image-row {
+    display: flex;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+
+/********************************************/
+#interface-column {
+    min-width: 20vw;
+    flex-grow: 1;
+}
+
+#prompt-explanation {
+    font-size: medium;
+    margin-top: 20px;
+}
+
+form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.toggle-button {
+    background-color: var(--button-bg-color);
+    color: black;
+    margin-top: 5px;
+}
+
+#class-select-form {
+    display: inline-block;
+}
+
+#class-select {
+    height: calc(1.8125rem + 2px);
+}
+
+.active {
+    background-color: var(--button-hover-bg-color);
+}
+
+#buttons-class {
+    margin: 20px 0;
+}
+
+#buttons-prompts {
+    margin: 10px 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.form-inline {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.button-column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    /* Align buttons to the start of the column */
+}
+
+.button-column button {
+    width: 100px;
+    height: 40px;
+}
+
+.button-column input[type="text"] {
+    height: 30px;
+}
+
+.button.active {
+    background-color: var(--button-active-bg-color);
+    color: white;
+}
+
+
+#add-button,
+#reweight-button {
+    margin: 20px 0;
+}
+
+.flexible-image {
+    width: 100%;
+    /* max-width: 13.5%; */
+    min-width: 18%;
+    max-width: 19.5%;
+    height: auto;
+    object-fit: cover;
+    margin: 1px;
+}
+
+.large-centered-text {
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.hover-effect:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    /* Change this value to darken more or less */
+    transition: background-color 0.1s ease;
+    /* This will animate the color change */
+}
+
+#promptsContainer {
+    margin-top: 5px;
+}
+
+#task-button {
+    margin-top: 5px;
+}
+
+#image-grid-1,
+#image-grid-2 {
+    margin-left: 20px;
+}
+
+.zoom-on-hover {
+    transition: transform 0.2s;
+}
+
+.zoom-on-hover:hover {
+    transform: scale(2.0);
+}
+
+#reset-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 10px;
+}
+#image-explanation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 15px;
+    margin-top: 10px;
+}

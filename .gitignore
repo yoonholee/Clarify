@@ -1,3 +1,9 @@
+logs/
+static/plots/
+session_data/
+features/
+data/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

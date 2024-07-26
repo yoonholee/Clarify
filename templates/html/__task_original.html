@@ -1,0 +1,145 @@
+{% if popup == "thanks" %}
+        <script>
+            Swal.fire({
+                title: 'Success!',
+                text: "Thank you for completing all annotation tasks!",
+                icon: 'success',
+                confirmButtonText: 'Okay'
+            });
+        </script>
+    {% endif %}
+    {% if popup == "explain_slider" %}
+        <script>
+            Swal.fire({
+                title: 'Visualization of Similarity Scores',
+                text: "We will now show you how similar your text prompt is to each image. A good feedback phrase should separate correct examples (green) from incorrect ones (red) as much as possible, though some overlap is unavoidable. ",
+                icon: 'info',
+                confirmButtonText: 'Next'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Usage',
+                        text: 'Please adjust the vertical slider to determine a threshold for separating correct and incorrect images. You can also hover over the dots to see each individual image. When you are satisfied with your phrase and threshold, click "Submit".',
+                        icon: 'info',
+                        confirmButtonText: 'Done'
+                    });
+                }
+            });
+        </script>
+    {% endif %}
+
+    <div class="navbar">
+        <div class="nav-item {% if data.dataset_index == 0 %}active{% endif %}">
+            Practice Task
+        </div>
+        <div class="nav-item {% if data.dataset_index == 1 %}active{% endif %}">
+            Task 1
+        </div>
+        <div class="nav-item {% if data.dataset_index == 2 %}active{% endif %}">
+            Task 2
+        </div>
+    </div>
+    <div class="content">
+        <div id="task-column">
+            <button class="button is-warning" id="reset-button">Reset</button>
+            <br>
+
+            <h4>CLARIFy: A Natural Language Interface for Correcting Model Errors</h4>
+            Through this interface, you will provide natural language feedback to an image classification model.
+            In each case, the model is focusing on a "distractor feature" which is not relevant to the classification task.
+            You will be asked to provide a phrase that describes the feature that the model is mistakenly focusing on, after seeing examples of images that the model gets correct and images that the model gets wrong.
+
+            <br> <br>
+            {% if data.dataset_index == 0 %}
+            <h6>Task: Colored Sprites</h6>
+            <div id="task-description">
+                An model was trained to classify images of colored sprites as either "square" or "oval".
+                You will be shown images from the "square" class, and for each image, we will show you whether or not
+                the model correctly classified the shape as a square.
+            </div>
+            <div class="hidden-text">
+                <div class="overlay">Hint</div>
+                <div class="content">Most correct images are blue, and most incorrect images are red. Try using the prompts "blue" or "red" and see if there is a difference in the similarity scores.
+                </div>
+            </div>
+            {% elif data.dataset_index == 1 %}
+            <h6>Task: Bird Species</h6>
+            <div id="task-description">
+                An model was trained to classify images of birds as either "waterbird" or "landbird" based on the
+                species of the bird.
+                You will be shown images from the "landbird" class, and for each image, we will show you whether or not
+                the model correctly classified the bird as a waterbird.
+            </div>
+            {% elif data.dataset_index == 2 %}
+            <h6>Task: Hair Color</h6>
+            <div id="task-description">
+                An model was trained to classify images of people as either "blond" or "non-blond" based on the hair
+                color of the person.
+                You will be shown images from the "non-blond" class, and for each image, we will show you whether or not
+                the model correctly classified the person as having non-blond hair.
+            </div>
+            {% endif %}
+
+            <div id="prompt-explanation">
+                Enter a phrase describing what distinguishes images that the model gets correct from images that the
+                model gets wrong.
+                <!-- {% if data.dataset_index != 0 %}
+                <br> <br> Prompt suggestions:
+                {% for prompt in data.prompt_suggestions %}
+                <br> {{ prompt }}
+                {% endfor %}
+                {% endif %} -->
+            </div>
+            <form method="POST" action="{{ url_for('process_text') }}" class="form-inline">
+                <input class="input" type="text" name="user_text" placeholder="Prompt">
+                <button class="button is-primary" type="submit">Compute Similarities</button>
+            </form>
+
+            <div id="buttons-prompts">
+                {% if data.all_prompts %}
+                Current prompt score = {{data.prompt_score}} <br>
+                Prompts: <br>
+                {% for prompt in data.all_prompts %}
+                <button class="button toggle-button {% if prompt == data.prompt %}active{% endif %}">{{ prompt
+                    }}</button>
+                {% endfor %}
+                {% endif %}
+                {% if data.error_score_text %}
+                <br> Error scores (0 to 1, higher is better): <br>
+                {{ data.error_score_text }}
+                {% endif %}
+            </div>
+
+            {% if data.plot_json_fn %}
+            <div id="plot-container">
+                <button class="button is-primary" id="reweight-button">Submit</button>
+            </div>
+            {% endif %}
+        </div>
+        <div id="main-grid">
+            <div id="similarities-plot"></div>
+            {% for item in data.selected_results %}
+            <div class="cell">
+                <p>{{ item.text }}</p>
+                <div class="image-grid">
+                    {% if item.correct %}
+                    {% for image, corr in zip(item.images, item.correct) %}
+                    <img src="{{ gcs_url_for(image) }}" alt="image" class="sim-img" data-correct="{{ corr }}">
+                    {% endfor %}
+                    {% else %}
+                    {% for image in item.images %}
+                    <img src="{{ gcs_url_for(image) }}" alt="image" class="sim-img">
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script>
+        var filename = "{{data['plot_json_fn']}}";
+    </script>
+    <script src="{{ url_for('static', filename='visualization.js') }}"></script>
+    <script src="{{ url_for('static', filename='buttons.js') }}"></script>

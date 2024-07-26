@@ -1,0 +1,51 @@
+<div class='row' id='task' style="display:none">
+    <div class='col-4' id="task-column">
+        <div id="task-text"> </div><br>
+        AI models often focus on the wrong thing, and you can help by describing what wrong thing they're focusing on.
+        Enter phrases below that complete a sentence like:<br>
+        <form id="textForm" class="form-inline">
+            "The AI is often wrong with images that have
+            <span style="white-space: nowrap;">
+                <input id="userText" class="input" type="text" name="user_text" placeholder="Enter phrase here...">
+                in it."
+            </span>
+            <button class="button is-primary" type="submit">Inspect Proposed Error</button>
+        </form>
+        <div id="prompt-list-text"> </div>
+        <div class="list-group" id="promptsContainer" role="tablist"> </div>
+
+        <br> After trying at least three phrases, click the button below to continue.<br>
+        <button type="button" class="btn btn-primary" id='task-button'>Continue</button>
+    </div>
+    <div class='col' id="task-column">
+        <div class='row' id="reset-row">
+            <div class="list-group" id="resetContainer" role="tablist"> </div>
+        </div>
+        <div class='row' id="task-image-row">
+            <div class="col" id="image-grid-1">
+                <p id="grid-text-1" class="large-centered-text"></p>
+                {% for i in range(8) %}
+                <div class="row image-row">
+                    {% for j in range(5) %}
+                    <img class="flexible-image">
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col" id="image-grid-2">
+                <p id="grid-text-2" class="large-centered-text"></p>
+                {% for i in range(8) %}
+                <div class="row image-row">
+                    {% for j in range(5) %}
+                    <img class="flexible-image">
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class='row' id="image-explanation">
+            Images with a red outline are those incorrectly predicted by the AI model. <br>
+            Hover over an image to zoom in.
+        </div>
+    </div>
+</div>
