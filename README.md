@@ -1,5 +1,7 @@
 # Clarify: Improving Model Robustness With Natural Language Corrections
 
+![Clarify diagram](assets/pull.png)
+
 This repository contains code for the non-expert user interface in the [Clarify paper](https://arxiv.org/abs/2402.03715).
 
 ## Instructions
@@ -35,6 +37,8 @@ For either option, the server should be accessible through <http://localhost:500
 All logs are saved in `logs/`.
 
 ## User Study
+
+![Interface diagram](assets/interface.png)
 
 We ran our user study through [Prolific](https://www.prolific.com/).
 We did minimal filtering to ensure that participants were fluent in English and familiar with similar interfaces. Our filters were:
